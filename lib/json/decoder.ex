@@ -42,7 +42,7 @@ defmodule JSON.Decode do
 
       value ->
         value
-    end
+    end |> Enum.into(%{})
   end
 
   def transform(parsed, [keys: :atoms!]) when parsed |> is_list do
@@ -58,11 +58,11 @@ defmodule JSON.Decode do
 
       value ->
         value
-    end
+    end |> Enum.into(%{})
   end
 
   def transform(parsed, []) do
-    parsed
+    parsed |> Enum.into(%{})
   end
 
   def transform(parsed, options) do
@@ -71,11 +71,12 @@ defmodule JSON.Decode do
     case Keyword.fetch!(options, :as) do
       as when as |> is_atom ->
         JSON.Decoder.from_json({ as, parsed, options })
+        |> Enum.into(%{})
 
       [as] when as |> is_atom ->
         Enum.map parsed, fn parsed ->
           JSON.Decoder.from_json({ as, parsed, options })
-        end
+        end |> Enum.into(%{})
 
       as when as |> is_list ->
         as = Enum.map as, fn { name, value } ->
@@ -102,7 +103,7 @@ defmodule JSON.Decode do
           end
 
           { name, value }
-        end
+        end |> Enum.into(%{})
     end
   end
 end
