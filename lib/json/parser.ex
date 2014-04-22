@@ -159,11 +159,11 @@ defmodule JSON.Parser do
   end
 
   defp number_complete(iolist, false) do
-    binary_to_integer(iolist_to_binary(iolist))
+    binary_to_integer(iodata_to_binary(iolist))
   end
 
   defp number_complete(iolist, true) do
-    binary_to_float(iolist_to_binary(iolist))
+    binary_to_float(iodata_to_binary(iolist))
   end
 
   defp number_digits(<< char, rest :: binary >>) when char in '0123456789' do
@@ -183,7 +183,7 @@ defmodule JSON.Parser do
   ## Strings
 
   defp string_continue("\"" <> rest, acc) do
-    { iolist_to_binary(acc), rest }
+    { iodata_to_binary(acc), rest }
   end
 
   defp string_continue("\\" <> rest, acc) do

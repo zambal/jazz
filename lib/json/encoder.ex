@@ -81,7 +81,7 @@ defimpl JSON.Encoder, for: List do
       [",\n", spaces(indent), name, ": ", value]
     end
 
-    ["{\n", tl(first), rest, "\n", spaces(offset), "}"] |> iolist_to_binary
+    ["{\n", tl(first), rest, "\n", spaces(offset), "}"] |> iodata_to_binary
   end
 
   defp encode_object(self, options, pretty) when pretty == false or pretty == nil do
@@ -89,7 +89,7 @@ defimpl JSON.Encoder, for: List do
       [",", JSON.encode!(to_string(name)), ":", JSON.encode!(value, options)]
     end
 
-    ["{", tl(first), rest, "}"] |> iolist_to_binary
+    ["{", tl(first), rest, "}"] |> iodata_to_binary
   end
 
   defp encode_array(self, options, pretty) when pretty == true do
@@ -97,7 +97,7 @@ defimpl JSON.Encoder, for: List do
       [", ", JSON.encode!(element, options)]
     end
 
-    ["[", tl(first), rest, "]"] |> iolist_to_binary
+    ["[", tl(first), rest, "]"] |> iodata_to_binary
   end
 
   defp encode_array(self, options, pretty) when pretty == false or pretty == nil do
@@ -105,7 +105,7 @@ defimpl JSON.Encoder, for: List do
       [",", JSON.encode!(element, options)]
     end
 
-    ["[", tl(first), rest, "]"] |> iolist_to_binary
+    ["[", tl(first), rest, "]"] |> iodata_to_binary
   end
 end
 
