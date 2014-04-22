@@ -73,13 +73,13 @@ defmodule JSON.Parser do
     acc = [ { name, value } | acc ]
     case skip_whitespace(rest) do
       "," <> rest -> object_pairs(skip_whitespace(rest), acc)
-      "}" <> rest -> { :lists.reverse(acc), rest }
+      "}" <> rest -> { Enum.into(:lists.reverse(acc), %{}), rest }
       other -> syntax_error(other)
     end
   end
 
   defp object_pairs("}" <> rest, []) do
-    { [], rest }
+    { %{}, rest }
   end
 
   defp object_pairs(other, _), do: syntax_error(other)
